@@ -76,48 +76,44 @@ export default {
     },
     option: {
       type: Object,
-      default: function _default() {
-        return {
-          type: 'day',
-          SundayFirst: false,
-          week: ['一', '二', '三', '四', '五', '六', '日'],
-          month: ['一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月'],
-          format: 'YYYY-MM-DD',
-          color: {
-            checked: '#F50057',
-            header: '#3f51b5',
-            headerText: '#fff'
-          },
-          wrapperClass: '',
-          inputClass: '',
-          inputStyle: {
-            'display': 'inline-block',
-            'padding': '6px',
-            'line-height': '22px',
-            'font-size': '16px',
-            'border': '2px solid #fff',
-            'box-shadow': '0 1px 3px 0 rgba(0, 0, 0, 0.2)',
-            'border-radius': '2px',
-            'color': '#5F5F5F'
-          },
-          placeholder: '时间',
-          buttons: {
-            ok: '确定',
-            cancel: '放弃'
-          },
-          overlayOpacity: 0.5,
-          dismissible: true
-        };
+      default: {
+        type: 'day',
+        SundayFirst: false,
+        week: ['一', '二', '三', '四', '五', '六', '日'],
+        month: ['一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月'],
+        format: 'YYYY-MM-DD',
+        color: {
+          checked: '#F50057',
+          header: '#3f51b5',
+          headerText: '#fff'
+        },
+        wrapperClass: '',
+        inputClass: '',
+        inputStyle: {
+          'display': 'inline-block',
+          'padding': '6px',
+          'line-height': '22px',
+          'font-size': '16px',
+          'border': '2px solid #fff',
+          'box-shadow': '0 1px 3px 0 rgba(0, 0, 0, 0.2)',
+          'border-radius': '2px',
+          'color': '#5F5F5F'
+        },
+        placeholder: '时间',
+        buttons: {
+          ok: '确定',
+          cancel: '放弃'
+        },
+        overlayOpacity: 0.5,
+        dismissible: true
       }
     },
     limit: {
       type: Array,
-      default: function _default() {
-        return [];
-      }
+      default: []
     }
   },
-  data: function data() {
+  data: function () {
     function hours() {
       var list = [];
       var hour = 24;
@@ -173,18 +169,17 @@ export default {
       selectedDays: []
     };
   },
-
   methods: {
-    pad: function pad(n) {
+    pad: (n) => {
       n = Math.floor(n);
       return n < 10 ? '0' + n : n;
     },
-    nextMonth: function nextMonth(type) {
+    nextMonth: (type) => {
       var next = null;
       type === 'next' ? next = (0, _moment2.default)(this.checked.currentMoment).add(1, 'M') : next = (0, _moment2.default)(this.checked.currentMoment).add(-1, 'M');
       this.showDay(next);
     },
-    showDay: function showDay(time) {
+    showDay: (time) => {
       if (time === undefined || !(0, _moment2.default)(time, this.option.format).isValid()) {
         this.checked.currentMoment = (0, _moment2.default)();
       } else {
@@ -278,7 +273,7 @@ export default {
       }
       this.dayList = days;
     },
-    checkBySelectDays: function checkBySelectDays(d, days) {
+    checkBySelectDays: (d, days) => {
       var _this = this;
 
       this.selectedDays.forEach(function (day) {
@@ -287,7 +282,7 @@ export default {
         }
       });
     },
-    limitWeekDay: function limitWeekDay(limit, days) {
+    limitWeekDay: (limit, days) => {
       days.map(function (day) {
         if (limit.available.indexOf(Math.floor(day.moment.format('d'))) === -1) {
           day.unavailable = true;
@@ -295,7 +290,7 @@ export default {
       });
       return days;
     },
-    limitFromTo: function limitFromTo(limit, days) {
+    limitFromTo: (limit, days) => {
       var _this2 = this;
 
       if (limit.from || limit.to) {
@@ -307,7 +302,7 @@ export default {
       }
       return days;
     },
-    getLimitCondition: function getLimitCondition(limit, day) {
+    getLimitCondition: (limit, day) => {
       var tmpMoment = (0, _moment2.default)(this.checked.year + '-' + this.pad(this.checked.month) + '-' + this.pad(day.value));
       if (limit.from && !limit.to) {
         return !tmpMoment.isAfter(limit.from);
@@ -317,7 +312,7 @@ export default {
         return !tmpMoment.isBetween(limit.from, limit.to);
       }
     },
-    checkDay: function checkDay(obj) {
+    checkDay: (obj) => {
       if (obj.unavailable || obj.value === '') {
         return false;
       }
@@ -353,7 +348,7 @@ export default {
           break;
       }
     },
-    showYear: function showYear() {
+    showYear: () => {
       var _this3 = this;
 
       var year = (0, _moment2.default)(this.checked.currentMoment).year();
@@ -370,7 +365,7 @@ export default {
         _this3.addYear();
       });
     },
-    showOne: function showOne(type) {
+    showOne: (type) => {
       switch (type) {
         case 'year':
           this.showInfo.hour = false;
@@ -403,10 +398,10 @@ export default {
           this.showInfo.hour = false;
       }
     },
-    showMonth: function showMonth() {
+    showMonth: () => {
       this.showOne('month');
     },
-    addYear: function addYear() {
+    addYear: () => {
       var _this4 = this;
 
       var listDom = document.getElementById('yearList');
@@ -418,11 +413,11 @@ export default {
         }
       }, false);
     },
-    setYear: function setYear(year) {
+    setYear: (year) => {
       this.checked.currentMoment = (0, _moment2.default)(year + '-' + this.checked.month + '-' + this.checked.day);
       this.showDay(this.checked.currentMoment);
     },
-    setMonth: function setMonth(month) {
+    setMonth: (month) => {
       var mo = this.library.month.indexOf(month) + 1;
       if (mo < 10) {
         mo = '0' + '' + mo;
@@ -430,7 +425,7 @@ export default {
       this.checked.currentMoment = (0, _moment2.default)(this.checked.year + '-' + mo + '-' + this.checked.day);
       this.showDay(this.checked.currentMoment);
     },
-    showCheck: function showCheck() {
+    showCheck: () => {
       if (this.date.time === '') {
         this.showDay();
       } else {
@@ -449,7 +444,7 @@ export default {
       }
       this.showInfo.check = true;
     },
-    setTime: function setTime(type, obj, list) {
+    setTime: (type, obj, list) => {
       var _iteratorNormalCompletion2 = true;
       var _didIteratorError2 = false;
       var _iteratorError2 = undefined;
@@ -479,7 +474,7 @@ export default {
         }
       }
     },
-    picked: function picked() {
+    picked: () => {
       if (this.option.type === 'day' || this.option.type === 'min') {
         var ctime = this.checked.year + '-' + this.checked.month + '-' + this.checked.day + ' ' + this.checked.hour + ':' + this.checked.min;
         this.checked.currentMoment = (0, _moment2.default)(ctime, 'YYYY-MM-DD HH:mm');
@@ -490,7 +485,7 @@ export default {
       this.showInfo.check = false;
       this.$emit('change', this.date.time);
     },
-    dismiss: function dismiss(evt) {
+    dismiss: (evt) => {
       if (evt.target.className === 'datepicker-overlay') {
         if (this.option.dismissible === undefined || this.option.dismissible) {
           this.showInfo.check = false;
@@ -498,7 +493,7 @@ export default {
         }
       }
     },
-    shiftActTime: function shiftActTime() {
+    shiftActTime: () => {
       // shift activated time items to visible position.
       this.$nextTick(function () {
         if (!document.querySelector('.hour-item.active')) {
