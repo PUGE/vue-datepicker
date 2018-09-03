@@ -58,13 +58,8 @@
     </div>
   </div>
 </template>
-<script>
-// 待优化
-'use strict';
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
+<script>
 
 var _moment = require('moment');
 
@@ -72,7 +67,7 @@ var _moment2 = _interopRequireDefault(_moment);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-exports.default = {
+export default {
   props: {
     required: false,
     date: {
@@ -105,10 +100,10 @@ exports.default = {
             'border-radius': '2px',
             'color': '#5F5F5F'
           },
-          placeholder: 'when?',
+          placeholder: '时间',
           buttons: {
-            ok: 'OK',
-            cancel: 'Cancel'
+            ok: '确定',
+            cancel: '放弃'
           },
           overlayOpacity: 0.5,
           dismissible: true
@@ -514,7 +509,7 @@ exports.default = {
       });
     }
   }
-};
+}
 </script>
 
 <style scoped>
