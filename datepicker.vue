@@ -51,8 +51,8 @@
           </div>
         </div>
         <div class="button-box">
-          <span @click="showInfo.check=false">{{option.buttons? option.buttons.cancel : 'Cancel' }}</span>
-          <span @click="picked">{{option.buttons? option.buttons.ok : 'Ok'}}</span>
+          <span @click="showInfo.check=false">{{option.buttons? option.buttons.cancel : '取消' }}</span>
+          <span @click="picked">{{option.buttons? option.buttons.ok : '确定'}}</span>
         </div>
       </div>
     </div>
@@ -85,8 +85,8 @@ exports.default = {
         return {
           type: 'day',
           SundayFirst: false,
-          week: ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su'],
-          month: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+          week: ['一', '二', '三', '四', '五', '六', '日'],
+          month: ['一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月'],
           format: 'YYYY-MM-DD',
           color: {
             checked: '#F50057',
