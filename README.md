@@ -24,22 +24,11 @@ $ npm install vue-datepicker
 
 ```html
 <script>
-// for Vue 1.0
-import myDatepicker from 'vue-datepicker/vue-datepicker-1.vue'
-
-// for Vue 2.0
 import myDatepicker from 'vue-datepicker'
 
 export default {
   data () {
     return {
-      // for Vue 1.0
-      starttime: '',
-      endtime: '2016-01-19',
-      testTime: '',
-      multiTime: '',
-
-      // for Vue 2.0
       startTime: {
         time: ''
       },
@@ -104,14 +93,6 @@ export default {
 </script>
 <template>
   <div class="card">
-
-    <!-- for Vue 1.0 -->
-    <div class="row">
-      <span>Departure Date：</span>
-      <date-picker :time.sync="starttime" :option="option" :limit="limit"></date-picker>
-    </div>
-
-    <!-- for Vue 2.0 -->
     <div class="row">
       <span>Departure Date：</span>
       <date-picker :date="startTime" :option="option" :limit="limit"></date-picker>
@@ -234,22 +215,6 @@ limit:{
 ```
 
 ### prop
-
-* Vue 1.0
-
-```javascript
-
-time: '' // string
-
-```
-
-```html
-
-<date-picker :time.sync="time" :limit="limit"></date-picker>
-
-```
-
-* Vue 2.0
 
 ```javascript
 date: {
