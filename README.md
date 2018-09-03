@@ -17,7 +17,7 @@ The demo page is [HERE](http://hilongjw.github.io/vue-datepicker/demo.html).
 ## npm
 
 ```shell
-$ npm install vue-datepicker
+$ npm install date-picker-owo
 ```
 
 # Usage
