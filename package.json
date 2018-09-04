@@ -1,6 +1,6 @@
 {
   "name": "date-picker-owo",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "calendar and datepicker component with material design for Vue.js ",
   "main": "index.js",
   "scripts": {
