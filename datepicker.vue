@@ -1,7 +1,7 @@
 <template>
   <div class="cov-vue-date" :class="wrapperClass ? wrapperClass : {}">
-    <div class="datepickbox">
-      <input type="text" title="input date" class="cov-datepicker" readonly="readonly" :placeholder="placeholder" v-model="date.time" :required="required" @click.left="showCheck" :style="inputStyle ? inputStyle : {}" :class="inputClass ? inputClass : {}"/>
+    <div class="datepickbox" @click.left="showCheck" :style="inputStyle ? inputStyle : {}">
+      {{date.time}}
     </div>
     <div class="datepicker-overlay" v-if="showInfo.check" @click.left="dismiss($event)" v-bind:style="{'background' : overlayOpacity? 'rgba(0,0,0,'+overlayOpacity+')' : 'rgba(0,0,0,0.5)'}">
       <div class="cov-date-body" :style="{'background-color': color ? color.header : '#3f51b5'}">
@@ -105,10 +105,6 @@ export default {
       }
     },
     wrapperClass: {
-      type: String,
-      default: ''
-    },
-    inputClass: {
       type: String,
       default: ''
     },
