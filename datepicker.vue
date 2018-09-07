@@ -1,13 +1,13 @@
 <template>
-  <div class="cov-vue-date" :class="option.wrapperClass ? option.wrapperClass : {}">
+  <div class="cov-vue-date" :class="wrapperClass ? wrapperClass : {}">
     <div class="datepickbox">
-      <input type="text" title="input date" class="cov-datepicker" readonly="readonly" :placeholder="option.placeholder" v-model="date.time" :required="required" @click="showCheck" @focus="showCheck" :style="option.inputStyle ? option.inputStyle : {}" :class="option.inputClass ? option.inputClass : {}"/>
+      <input type="text" title="input date" class="cov-datepicker" readonly="readonly" :placeholder="placeholder" v-model="date.time" :required="required" @click="showCheck" @focus="showCheck" :style="inputStyle ? inputStyle : {}" :class="inputClass ? inputClass : {}"/>
     </div>
-    <div class="datepicker-overlay" v-if="showInfo.check" @click="dismiss($event)" v-bind:style="{'background' : option.overlayOpacity? 'rgba(0,0,0,'+option.overlayOpacity+')' : 'rgba(0,0,0,0.5)'}">
-      <div class="cov-date-body" :style="{'background-color': option.color ? option.color.header : '#3f51b5'}">
+    <div class="datepicker-overlay" v-if="showInfo.check" @click="dismiss($event)" v-bind:style="{'background' : overlayOpacity? 'rgba(0,0,0,'+overlayOpacity+')' : 'rgba(0,0,0,0.5)'}">
+      <div class="cov-date-body" :style="{'background-color': color ? color.header : '#3f51b5'}">
         <div class="cov-date-monthly">
           <div class="cov-date-previous" @click="nextMonth('pre')">«</div>
-          <div class="cov-date-caption" :style="{'color': option.color ? option.color.headerText : '#fff'}">
+          <div class="cov-date-caption" :style="{'color': color ? color.headerText : '#fff'}">
             <span @click="showYear"><small>{{checked.year}}</small></span>
             <br>
             <span @click="showMonth">{{displayInfo.month}}</span>
@@ -21,7 +21,7 @@
                 <li v-for="weekie in library.week">{{weekie}}</li>
               </ul>
             </div>
-            <div class="day" v-for="day in dayList" track-by="$index" @click="checkDay(day)" :class="{'checked':day.checked,'unavailable':day.unavailable,'passive-day': !(day.inMonth)}" :style="day.checked ? (option.color && option.color.checkedDay ? { background: option.color.checkedDay } : { background: '#F50057' }) : {}">{{day.value}}</div>
+            <div class="day" v-for="day in dayList" track-by="$index" @click="checkDay(day)" :class="{'checked':day.checked,'unavailable':day.unavailable,'passive-day': !(day.inMonth)}" :style="day.checked ? (color && color.checkedDay ? { background: color.checkedDay } : { background: '#F50057' }) : {}">{{day.value}}</div>
           </div>
         </div>
         <div class="cov-date-box list-box" v-if="showInfo.year">
@@ -51,8 +51,8 @@
           </div>
         </div>
         <div class="button-box">
-          <span @click="showInfo.check=false">{{option.buttons? option.buttons.cancel : '取消' }}</span>
-          <span @click="picked">{{option.buttons? option.buttons.ok : '确定'}}</span>
+          <span @click="showInfo.check=false">{{buttons? buttons.cancel : '取消' }}</span>
+          <span @click="picked">{{buttons? buttons.ok : '确定'}}</span>
         </div>
       </div>
     </div>
@@ -70,41 +70,83 @@ export default {
       type: Object,
       required: true
     },
-    option: {
+    type: {
+      type: String,
+      default: 'day'
+    },
+    SundayFirst: {
+      type: Boolean,
+      default: false
+    },
+    week: {
+      type: Array,
+      default: () => {
+        return ['一', '二', '三', '四', '五', '六', '日']
+      }
+    },
+    month: {
+      type: Array,
+      default: () => {
+        return ['一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月']
+      }
+    },
+    format: {
+      type: String,
+      default: 'YYYY-MM-DD'
+    },
+    color: {
       type: Object,
-      default: function () {
-          return {
-          type: 'day',
-          SundayFirst: false,
-          week: ['一', '二', '三', '四', '五', '六', '日'],
-          month: ['一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月'],
-          format: 'YYYY-MM-DD',
-          color: {
-            checked: '#F50057',
-            header: '#3f51b5',
-            headerText: '#fff'
-          },
-          wrapperClass: '',
-          inputClass: '',
-          inputStyle: {
-            'display': 'inline-block',
-            'padding': '6px',
-            'line-height': '22px',
-            'font-size': '16px',
-            'border': '2px solid #fff',
-            'box-shadow': '0 1px 3px 0 rgba(0, 0, 0, 0.2)',
-            'border-radius': '2px',
-            'color': '#5F5F5F'
-          },
-          placeholder: '时间',
-          buttons: {
-            ok: '确定',
-            cancel: '放弃'
-          },
-          overlayOpacity: 0.5,
-          dismissible: true
+      default: () => {
+        return {
+          checked: '#F50057',
+          header: '#3f51b5',
+          headerText: '#fff'
         }
       }
+    },
+    wrapperClass: {
+      type: String,
+      default: ''
+    },
+    inputClass: {
+      type: String,
+      default: ''
+    },
+    inputStyle: {
+      type: Object,
+      default: () => {
+        return {
+          'display': 'inline-block',
+          'padding': '6px',
+          'line-height': '22px',
+          'font-size': '16px',
+          'border': '2px solid #fff',
+          'box-shadow': '0 1px 3px 0 rgba(0, 0, 0, 0.2)',
+          'border-radius': '2px',
+          'color': '#5F5F5F'
+        }
+      }
+    },
+    placeholder: {
+      type: String,
+      default: '时间'
+    },
+    buttons: {
+      type: Object,
+      default: () => {
+        return {
+          ok: '确定',
+          cancel: '放弃'
+        }
+      }
+    },
+    overlayOpacity: {
+      type: Number,
+      default: 0.5
+    },
+    dismissible: {
+      type: Boolean,
+      default: true
     },
     limit: {
       type: Array,
@@ -152,8 +194,8 @@ export default {
         month: ''
       },
       library: {
-        week: this.option.week,
-        month: this.option.month,
+        week: this.week,
+        month: this.month,
         year: []
       },
       checked: {
@@ -180,10 +222,10 @@ export default {
       this.showDay(next);
     },
     showDay (time) {
-      if (time === undefined || !moment(time, this.option.format).isValid()) {
+      if (time === undefined || !moment(time, this.format).isValid()) {
         this.checked.currentMoment = moment();
       } else {
-        this.checked.currentMoment = moment(time, this.option.format);
+        this.checked.currentMoment = moment(time, this.format);
       }
       this.showOne('day');
       this.checked.year = moment(this.checked.currentMoment).format('YYYY');
@@ -209,13 +251,13 @@ export default {
           checked: false,
           moment: moment(currentMoment).date(i)
         });
-        if (i === Math.ceil(moment(currentMoment).format('D')) && moment(oldtime, this.option.format).year() === moment(currentMoment).year() && moment(oldtime, this.option.format).month() === moment(currentMoment).month()) {
+        if (i === Math.ceil(moment(currentMoment).format('D')) && moment(oldtime, this.format).year() === moment(currentMoment).year() && moment(oldtime, this.format).month() === moment(currentMoment).month()) {
           days[i - 1].checked = true;
         }
         this.checkBySelectDays(i, days);
       }
       if (firstDay === 0) firstDay = 7;
-      for (var _i = 0; _i < firstDay - (this.option.SundayFirst ? 0 : 1); _i++) {
+      for (var _i = 0; _i < firstDay - (this.SundayFirst ? 0 : 1); _i++) {
         var passiveDay = {
           value: previousMonth.daysInMonth() - _i,
           inMonth: false,
@@ -319,7 +361,7 @@ export default {
       if (!obj.inMonth) {
         this.nextMonth(obj.action);
       }
-      if (this.option.type === 'day' || this.option.type === 'min') {
+      if (this.type === 'day' || this.type === 'min') {
         this.dayList.forEach(function (x) {
           x.checked = false;
         });
@@ -337,7 +379,7 @@ export default {
           obj.checked = true;
         }
       }
-      switch (this.option.type) {
+      switch (this.type) {
         case 'day':
           this.picked();
           break;
@@ -429,7 +471,7 @@ export default {
       if (this.date.time === '') {
         this.showDay();
       } else {
-        if (this.option.type === 'day' || this.option.type === 'min') {
+        if (this.type === 'day' || this.type === 'min') {
           this.checked.oldtime = this.date.time;
           this.showDay(this.date.time);
         } else {
@@ -475,10 +517,10 @@ export default {
       }
     },
     picked () {
-      if (this.option.type === 'day' || this.option.type === 'min') {
+      if (this.type === 'day' || this.type === 'min') {
         var ctime = this.checked.year + '-' + this.checked.month + '-' + this.checked.day + ' ' + this.checked.hour + ':' + this.checked.min;
         this.checked.currentMoment = moment(ctime, 'YYYY-MM-DD HH:mm');
-        this.date.time = moment(this.checked.currentMoment).format(this.option.format);
+        this.date.time = moment(this.checked.currentMoment).format(this.format);
       } else {
         this.date.time = JSON.stringify(this.selectedDays);
       }
@@ -487,7 +529,7 @@ export default {
     },
     dismiss (evt) {
       if (evt.target.className === 'datepicker-overlay') {
-        if (this.option.dismissible === undefined || this.option.dismissible) {
+        if (this.dismissible === undefined || this.dismissible) {
           this.showInfo.check = false;
           this.$emit('cancel');
         }
@@ -590,7 +632,6 @@ export default {
   }
   .cov-picker-box {
     background: #fff;
-    width: 100%;
     display: inline-block;
     padding: 25px;
     box-sizing: border-box !important;
@@ -599,7 +640,6 @@ export default {
     -ms-box-sizing: border-box !important;
     width: 400px;
     max-width: 100%;
-    height: 280px;
     text-align: start!important;
   }
   .cov-picker-box td {
