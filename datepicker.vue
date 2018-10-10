@@ -1,18 +1,18 @@
 <template>
   <div class="cov-vue-date" :class="wrapperClass ? wrapperClass : {}">
-    <div class="datepickbox">
-      <input type="text" title="input date" class="cov-datepicker" readonly="readonly" :placeholder="placeholder" v-model="date.time" :required="required" @click="showCheck" @focus="showCheck" :style="inputStyle ? inputStyle : {}" :class="inputClass ? inputClass : {}"/>
+    <div class="datepickbox" @click.left="showCheck" :style="inputStyle ? inputStyle : {}">
+      {{date.time}}
     </div>
-    <div class="datepicker-overlay" v-if="showInfo.check" @click="dismiss($event)" v-bind:style="{'background' : overlayOpacity? 'rgba(0,0,0,'+overlayOpacity+')' : 'rgba(0,0,0,0.5)'}">
+    <div class="datepicker-overlay" v-if="showInfo.check" @click.left="dismiss($event)" v-bind:style="{'background' : overlayOpacity? 'rgba(0,0,0,'+overlayOpacity+')' : 'rgba(0,0,0,0.5)'}">
       <div class="cov-date-body" :style="{'background-color': color ? color.header : '#3f51b5'}">
         <div class="cov-date-monthly">
-          <div class="cov-date-previous" @click="nextMonth('pre')">«</div>
+          <div class="cov-date-previous" @click.left="nextMonth('pre')">«</div>
           <div class="cov-date-caption" :style="{'color': color ? color.headerText : '#fff'}">
-            <span @click="showYear"><small>{{checked.year}}</small></span>
+            <span @click.left="showYear"><small>{{checked.year}}</small></span>
             <br>
-            <span @click="showMonth">{{displayInfo.month}}</span>
+            <span @click.left="showMonth">{{displayInfo.month}}</span>
           </div>
-          <div class="cov-date-next" @click="nextMonth('next')">»</div>
+          <div class="cov-date-next" @click.left="nextMonth('next')">»</div>
         </div>
         <div class="cov-date-box" v-if="showInfo.day">
           <div class="cov-picker-box">
@@ -21,17 +21,17 @@
                 <li v-for="weekie in library.week">{{weekie}}</li>
               </ul>
             </div>
-            <div class="day" v-for="day in dayList" track-by="$index" @click="checkDay(day)" :class="{'checked':day.checked,'unavailable':day.unavailable,'passive-day': !(day.inMonth)}" :style="day.checked ? (color && color.checkedDay ? { background: color.checkedDay } : { background: '#F50057' }) : {}">{{day.value}}</div>
+            <div class="day" v-for="day in dayList" track-by="$index" @click.left="checkDay(day)" :class="{'checked':day.checked,'unavailable':day.unavailable,'passive-day': !(day.inMonth)}" :style="day.checked ? (color && color.checkedDay ? { background: color.checkedDay } : { background: '#F50057' }) : {}">{{day.value}}</div>
           </div>
         </div>
         <div class="cov-date-box list-box" v-if="showInfo.year">
           <div class="cov-picker-box date-list" id="yearList">
-            <div class="date-item" v-for="yearItem in library.year" track-by="$index" @click="setYear(yearItem)">{{yearItem}}</div>
+            <div class="date-item" v-for="yearItem in library.year" track-by="$index" @click.left="setYear(yearItem)">{{yearItem}}</div>
           </div>
         </div>
         <div class="cov-date-box list-box" v-if="showInfo.month">
           <div class="cov-picker-box date-list">
-            <div class="date-item" v-for="monthItem in library.month" track-by="$index" @click="setMonth(monthItem)">{{monthItem}}</div>
+            <div class="date-item" v-for="monthItem in library.month" track-by="$index" @click.left="setMonth(monthItem)">{{monthItem}}</div>
           </div>
         </div>
         <div class="cov-date-box list-box" v-if="showInfo.hour">
@@ -40,19 +40,19 @@
               <div class="hour-box">
                 <div class="mui-pciker-rule mui-pciker-rule-ft"></div>
                 <ul>
-                  <li class="hour-item" v-for="hitem in hours" @click="setTime('hour', hitem, hours)" :class="{'active':hitem.checked}">{{hitem.value}}</li>
+                  <li class="hour-item" v-for="hitem in hours" @click.left="setTime('hour', hitem, hours)" :class="{'active':hitem.checked}">{{hitem.value}}</li>
                 </ul>
               </div>
               <div class="min-box">
                 <div class="mui-pciker-rule mui-pciker-rule-ft"></div>
-                <div class="min-item" v-for="mitem in mins" @click="setTime('min',mitem, mins)" :class="{'active':mitem.checked}">{{mitem.value}}</div>
+                <div class="min-item" v-for="mitem in mins" @click.left="setTime('min',mitem, mins)" :class="{'active':mitem.checked}">{{mitem.value}}</div>
               </div>
             </div>
           </div>
         </div>
         <div class="button-box">
-          <span @click="showInfo.check=false">{{buttons? buttons.cancel : '取消' }}</span>
-          <span @click="picked">{{buttons? buttons.ok : '确定'}}</span>
+          <span @click.left="showInfo.check=false">{{buttons? buttons.cancel : '取消' }}</span>
+          <span @click.left="picked">{{buttons? buttons.ok : '确定'}}</span>
         </div>
       </div>
     </div>
@@ -74,7 +74,7 @@ export default {
       type: String,
       default: 'day'
     },
-    SundayFirst: {
+    sundayFirst: {
       type: Boolean,
       default: false
     },
@@ -105,10 +105,6 @@ export default {
       }
     },
     wrapperClass: {
-      type: String,
-      default: ''
-    },
-    inputClass: {
       type: String,
       default: ''
     },
@@ -257,7 +253,7 @@ export default {
         this.checkBySelectDays(i, days);
       }
       if (firstDay === 0) firstDay = 7;
-      for (var _i = 0; _i < firstDay - (this.SundayFirst ? 0 : 1); _i++) {
+      for (var _i = 0; _i < firstDay - (this.sundayFirst ? 0 : 1); _i++) {
         var passiveDay = {
           value: previousMonth.daysInMonth() - _i,
           inMonth: false,
@@ -801,6 +797,7 @@ export default {
     padding: 0;
   }
   .cov-vue-date {
+    cursor: pointer;
     display: inline-block;
     color: #5D5D5D;
   }
