@@ -1,5 +1,5 @@
 {
-  "name": "date-picker-owo",
+  "name": "@puge/datepicker",
   "version": "1.0.2",
   "description": "calendar and datepicker component with material design for Vue.js ",
   "main": "index.js",
