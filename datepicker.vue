@@ -621,7 +621,7 @@ export default {
     z-index: 999;
     top: 50%;
     left: 50%;
-    height: 80%;
+    max-height: 80%;
     -webkit-transform: translate(-50%, -50%);
     -ms-transform: translate(-50%, -50%);
     transform: translate(-50%, -50%);
@@ -803,7 +803,7 @@ export default {
   }
   .cov-date-box {
     overflow: auto;
-    height: calc(100% - 200px);
+    max-height: 600px;
   }
   .button-box {
     background: #fff;
